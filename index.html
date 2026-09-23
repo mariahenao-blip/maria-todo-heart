@@ -1,70 +1,866 @@
-Maria to-do
 
-Airbnb
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria to-do</title>
+<style>
+:root {
+  --bg: #F5F4F0;
+  --surface: #FFFFFF;
+  --border: #E4E2DA;
+  --text: #18180F;
+  --muted: #8A8880;
+  --accent: #2D6A4F;
+  --accent-light: #E8F4EE;
+  --radius: 10px;
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
 
-Anaplan
+  --airbnb:#E31C5F;--airbnb-bg:#FDE8F0;
+  --anaplan:#00704A;--anaplan-bg:#E0F4ED;
+  --atlantic:#1A56DB;--atlantic-bg:#EBF0FF;
+  --baptist:#7B2D8B;--baptist-bg:#F5E8F9;
+  --behr:#C05621;--behr-bg:#FEF0E7;
+  --boost:#D61F69;--boost-bg:#FDE8F2;
+  --compass:#0369A1;--compass-bg:#E0F2FE;
+  --directv:#046C4E;--directv-bg:#D5F5EC;
+  --gap:#FF5A1F;--gap-bg:#FFF0EB;
+  --gehealthcare:#005B8E;--gehealthcare-bg:#E0EEF7;
+  --greenshield:#276749;--greenshield-bg:#E4F4EC;
+  --inova:#0F766E;--inova-bg:#CCFBF1;
+  --kirkland:#92400E;--kirkland-bg:#FEF3C7;
+  --lhh:#3730A3;--lhh-bg:#EEF2FF;
+  --link:#0E7490;--link-bg:#CFFAFE;
+  --medtronic:#0E9F6E;--medtronic-bg:#E8F5F0;
+  --moore:#6D28D9;--moore-bg:#EDE9FE;
+  --nbcu:#1D4ED8;--nbcu-bg:#DBEAFE;
+  --northwell:#065F46;--northwell-bg:#D1FAE5;
+  --rwbj:#7E3AF2;--rwbj-bg:#F3EEFF;
+  --rwjf:#5B21B6;--rwjf-bg:#EDE9FE;
+  --sharkninja:#374151;--sharkninja-bg:#F3F4F6;
+  --stripe:#635BFF;--stripe-bg:#EEEDFF;
+  --taylormade:#E02424;--taylormade-bg:#FEE2E2;
+  --christhospital:#BE185D;--christhospital-bg:#FCE7F3;
+  --trupanion:#E3A008;--trupanion-bg:#FEF3C7;
+  --twilio:#F22F46;--twilio-bg:#FEE2E6;
+  --vail:#1E40AF;--vail-bg:#DBEAFE;
+  --wellmed:#166534;--wellmed-bg:#DCFCE7;
+  --worldbank:#1C3A6E;--worldbank-bg:#E8EEF8;
+  --internal:#6B7280;--internal-bg:#F3F4F6;
+}
 
-Atlantic Health
+*{box-sizing:border-box;margin:0;padding:0;}
 
-Baptist Health
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px;}
 
-Behr
+/* ── HEADER ── */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 28px;}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+header h1{font-size:15px;font-weight:600;letter-spacing:-0.01em;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:500;color:var(--muted);}
+.legend-dot{width:7px;height:7px;border-radius:50%;}
 
-Boost Mobile
+/* ── QUOTE ── */
+.quote-bar{background:var(--accent-light);border-bottom:1px solid #C8E6D4;padding:10px 28px;font-size:12px;color:#2D5A45;font-style:italic;display:flex;gap:8px;align-items:baseline;position:sticky;top:0;z-index:18;}
+.quote-author{font-style:normal;font-weight:600;white-space:nowrap;}
 
-Compass
+/* ── CONTAINER ── */
+.container{max-width:780px;margin:0 auto;padding:28px 20px 0;}
 
-DirecTV
+/* ── WEEK SECTION ── */
+.week-section{margin-bottom:32px;}
+.week-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;cursor:pointer;user-select:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;}
+.week-chevron{color:var(--muted);font-size:12px;transition:transform 0.2s;}
+.week-section.collapsed .week-chevron{transform:rotate(-90deg);}
+.week-section.collapsed .week-body{display:none;}
+.week-label-text{font-size:13px;font-weight:600;letter-spacing:0.03em;color:var(--muted);}
+.week-label-rel{font-size:15px;font-weight:700;letter-spacing:-0.01em;}
+.week-label-rel.current{color:var(--accent);}
+.week-label-rel.next{color:#0E7490;}
+.week-label-rel.future{color:#7E3AF2;}
+.week-label-rel.last{color:#E3A008;}
+.week-label-rel.past{color:var(--muted);}
+.week-task-count{font-size:10px;color:var(--muted);background:var(--border);border-radius:20px;padding:1px 7px;}
+.week-body{display:flex;flex-direction:column;gap:6px;}
 
-GAP
+/* ── TASK ROW ── */
+.task-group-wrapper{display:flex;flex-direction:column;}
+.task-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);position:relative;cursor:pointer;transition:border-color 0.15s;}
+.task-row:hover{border-color:#C8C6BE;}
+.task-row.done{opacity:0.42;}
+.task-row.has-subtasks{border-radius:10px 10px 0 0;border-bottom:none;}
+.task-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:10px 0 0 10px;background:var(--client-color,#ccc);}
+.task-row.has-subtasks::before{border-radius:10px 0 0 0;}
 
-GE Healthcare
+.check{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.task-row.done .check{background:var(--client-color,#ccc);border-color:var(--client-color,#ccc);}
+.check svg{display:none;}
+.task-row.done .check svg{display:block;}
 
-Greenshield
+.task-body{flex:1;min-width:0;}
+.task-meta-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+.client-badge{font-size:10px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.contact-badge{font-size:11px;color:var(--muted);font-weight:500;}
+.contact-badge::before{content:'·';margin-right:5px;color:var(--border);}
+.task-title{font-size:13.5px;font-weight:450;line-height:1.45;color:var(--text);}
+.task-row.done .task-title{text-decoration:line-through;color:var(--muted);}
 
-Inova
+/* editable fields */
+[contenteditable]{outline:none;border-radius:3px;transition:background 0.15s;}
+[contenteditable]:hover{background:rgba(0,0,0,0.04);}
+[contenteditable]:focus{background:rgba(45,106,79,0.08);box-shadow:0 0 0 2px rgba(45,106,79,0.2);}
 
-Kirkland
+.task-del{background:none;border:none;cursor:pointer;color:var(--border);padding:2px;border-radius:4px;flex-shrink:0;margin-top:1px;transition:color 0.15s;}
+.task-del:hover{color:#E02424;}
 
-LHH
+/* ── SUBTASKS ── */
+.subtask-container{background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+.subtask-row{display:flex;align-items:flex-start;gap:10px;padding:8px 14px 8px 34px;border-top:1px solid var(--border);position:relative;cursor:pointer;transition:background 0.1s;}
+.subtask-row:hover{background:#FAFAF8;}
+.subtask-row.done{opacity:0.4;}
+.subtask-row.done .task-title{text-decoration:line-through;color:var(--muted);}
+.subtask-row .check{width:14px;height:14px;}
+.subtask-row.done .check{background:var(--client-color,#ccc);border-color:var(--client-color,#ccc);}
+.subtask-row::before{content:'';position:absolute;left:22px;top:0;bottom:0;width:1px;background:var(--border);}
+.subtask-row:last-child::before{bottom:50%;}
+.subtask-row::after{content:'';position:absolute;left:22px;top:50%;width:8px;height:1px;background:var(--border);transform:translateY(-50%);}
+.subtask-row .task-title{font-size:12.5px;}
 
-Link
+/* ── ARCHIVE ── */
+.archive-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;padding:12px 0;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;user-select:none;border-top:1px solid var(--border);margin-top:8px;}
+.archive-toggle svg{transition:transform 0.2s;}
+.archive-toggle.open svg{transform:rotate(90deg);}
+.archive-body{display:none;}
+.archive-body.open{display:block;}
 
-Medtronic
+/* ── CONTEXT MENU ── */
+.ctx-menu{position:fixed;z-index:500;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.15);padding:5px;min-width:190px;}
+.ctx-item{width:100%;text-align:left;background:none;border:none;padding:9px 12px;font-size:13px;font-family:inherit;cursor:pointer;border-radius:6px;color:var(--text);display:flex;align-items:center;gap:9px;}
+.ctx-item:hover{background:var(--bg);}
+.ctx-item.danger{color:#E02424;}
 
-Moore
+/* ── MODAL ── */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:300;}
+.modal-backdrop.open{display:flex;align-items:flex-end;justify-content:center;}
+.modal-box{background:var(--surface);border-radius:20px 20px 0 0;padding:24px 24px 44px;width:100%;max-width:700px;box-shadow:0 -8px 40px rgba(0,0,0,0.12);}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;font-size:24px;color:var(--muted);cursor:pointer;line-height:1;}
+.form-col{display:flex;flex-direction:column;gap:10px;}
+.form-input{border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;width:100%;}
+.form-input:focus{border-color:var(--accent);}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;}
+.form-row .form-input{flex:1;min-width:120px;}
+.sub-row{display:flex;gap:6px;align-items:center;}
+.sub-row .form-input{flex:1;}
+.btn-ghost{background:none;border:1px dashed var(--border);border-radius:9px;padding:8px 13px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;text-align:left;}
+.btn-primary{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:2px;}
+.btn-primary:hover{opacity:0.9;}
 
-NBCU
+/* ── FAB ── */
+#fab{position:fixed;bottom:28px;right:28px;width:54px;height:54px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(45,106,79,0.4);z-index:97;transition:transform 0.15s;}
+#fab:hover{transform:scale(1.08);}
 
-Northwell
+@media(max-width:600px){
+  header{padding:12px 16px;}
+  .container{padding:18px 12px 0;}
+  .legend{display:none;}
+  .quote-bar{padding:10px 16px;}
+}
+</style>
+</head>
+<body>
 
-RWBJ
+<header>
+  <div class="header-top">
+    <h1>Maria to-do</h1>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#E31C5F"></div>Airbnb</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00704A"></div>Anaplan</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1A56DB"></div>Atlantic Health</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7B2D8B"></div>Baptist Health</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C05621"></div>Behr</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#D61F69"></div>Boost Mobile</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0369A1"></div>Compass</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#046C4E"></div>DirecTV</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FF5A1F"></div>GAP</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#005B8E"></div>GE Healthcare</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#276749"></div>Greenshield</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0F766E"></div>Inova</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#92400E"></div>Kirkland</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3730A3"></div>LHH</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0E7490"></div>Link</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0E9F6E"></div>Medtronic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6D28D9"></div>Moore</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8"></div>NBCU</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#065F46"></div>Northwell</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7E3AF2"></div>RWBJ</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#5B21B6"></div>RWJF</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#374151"></div>SharkNinja</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#635BFF"></div>Stripe</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E02424"></div>TaylorMade</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#BE185D"></div>The Christ Hospital</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E3A008"></div>Trupanion</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#F22F46"></div>Twilio</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1E40AF"></div>Vail</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#166534"></div>WellMed</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1C3A6E"></div>World Bank</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6B7280"></div>Internal</div>
+  </div>
+</header>
 
-RWJF
+<div class="quote-bar">
+  <span id="quote-text"></span>
+  <span class="quote-author" id="quote-author"></span>
+</div>
 
-SharkNinja
+<div class="container" id="main-container"></div>
 
-Stripe
+<!-- Archive -->
+<div class="container" style="padding-top:0;">
+  <div class="archive-toggle" id="archive-toggle" onclick="toggleArchive()">
+    <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Archive
+    <span id="archive-count" class="week-task-count">0</span>
+  </div>
+  <div class="archive-body" id="archive-body"></div>
+</div>
 
-TaylorMade
+<!-- Add task modal -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span id="modal-title-text">New task</span>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="form-col">
+      <input id="f-title" class="form-input" type="text" placeholder="What needs to be done?" autocomplete="off"/>
+      <div class="form-row">
+        <select id="f-client" class="form-input">
+          <option value="airbnb">Airbnb</option>
+          <option value="anaplan">Anaplan</option>
+          <option value="atlantic">Atlantic Health</option>
+          <option value="baptist">Baptist Health</option>
+          <option value="behr">Behr</option>
+          <option value="boost">Boost Mobile</option>
+          <option value="compass">Compass</option>
+          <option value="directv">DirecTV</option>
+          <option value="gap">GAP</option>
+          <option value="gehealthcare">GE Healthcare</option>
+          <option value="greenshield">Greenshield</option>
+          <option value="inova">Inova</option>
+          <option value="kirkland">Kirkland</option>
+          <option value="lhh">LHH</option>
+          <option value="link">Link</option>
+          <option value="medtronic">Medtronic</option>
+          <option value="moore">Moore</option>
+          <option value="nbcu">NBCU</option>
+          <option value="northwell">Northwell</option>
+          <option value="rwbj">RWBJ</option>
+          <option value="rwjf">RWJF</option>
+          <option value="sharkninja">SharkNinja</option>
+          <option value="stripe">Stripe</option>
+          <option value="taylormade">TaylorMade</option>
+          <option value="christhospital">The Christ Hospital</option>
+          <option value="trupanion">Trupanion</option>
+          <option value="twilio">Twilio</option>
+          <option value="vail">Vail</option>
+          <option value="wellmed">WellMed</option>
+          <option value="worldbank">World Bank</option>
+          <option value="internal">Internal</option>
+        </select>
+        <input id="f-contact" class="form-input" type="text" placeholder="Contact (optional)" autocomplete="off"/>
+        <select id="f-week" class="form-input"></select>
+      </div>
+      <div id="f-subtasks"></div>
+      <button class="btn-ghost" onclick="addSubRow('f-subtasks')">+ Add subtask</button>
+      <button class="btn-primary" onclick="saveTask()">Save task</button>
+    </div>
+  </div>
+</div>
 
-The Christ Hospital
+<!-- Move week modal -->
+<div class="modal-backdrop" id="move-modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span>Move to week</span>
+      <button class="modal-close" onclick="closeMoveModal()">×</button>
+    </div>
+    <div class="form-col" id="move-week-list"></div>
+  </div>
+</div>
 
-Trupanion
+<!-- Add subtask modal -->
+<div class="modal-backdrop" id="sub-modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span>Add subtask</span>
+      <button class="modal-close" onclick="closeSubModal()">×</button>
+    </div>
+    <div class="form-col">
+      <div id="sub-inputs"></div>
+      <button class="btn-ghost" onclick="addSubRow('sub-inputs')">+ Add another</button>
+      <button class="btn-primary" onclick="saveSubtasks()">Save</button>
+    </div>
+  </div>
+</div>
 
-Twilio
+<!-- FAB -->
+<button id="fab" onclick="openModal()">
+  <svg width="26" height="26" fill="none" viewBox="0 0 26 26"><path d="M13 4v18M4 13h18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+</button>
 
-Vail
+<script>
+// ── QUOTES ──
+const QUOTES = [
+  {text:"Somos nuestra memoria, somos ese quimérico museo de formas inconstantes, ese montón de espejos rotos.",author:"Jorge Luis Borges"},
+  {text:"He perdido tantas cosas que no me atrevo a perder la esperanza.",author:"Jorge Luis Borges"},
+  {text:"El tiempo que se ha ido no se puede recuperar, el que viene no se puede saber.",author:"Jorge Luis Borges"},
+  {text:"Puedo escribir los versos más tristes esta noche.",author:"Pablo Neruda"},
+  {text:"Es tan corto el amor y tan largo el olvido.",author:"Pablo Neruda"},
+  {text:"Quiero hacer contigo lo que la primavera hace con los cerezos.",author:"Pablo Neruda"},
+  {text:"En los laberintos del sueño te he buscado y te he perdido.",author:"Pablo Neruda"},
+  {text:"El secreto de una buena vejez no es otra cosa que un pacto honrado con la soledad.",author:"Gabriel García Márquez"},
+  {text:"No llores porque ya se fue, sonríe porque existió.",author:"Gabriel García Márquez"},
+  {text:"La vida no es la que uno vivió, sino la que uno recuerda y cómo la recuerda para contarla.",author:"Gabriel García Márquez"},
+  {text:"Vine a Comala porque me dijeron que acá vivía mi padre.",author:"Juan Rulfo"},
+  {text:"La vida no es muy seria en sus cosas.",author:"Juan Rulfo"},
+  {text:"You do not have to be good. You do not have to walk on your knees for a hundred miles through the desert repenting.",author:"Mary Oliver"},
+  {text:"Tell me, what is it you plan to do with your one wild and precious life?",author:"Mary Oliver"},
+  {text:"Instructions for living a life: Pay attention. Be astonished. Tell about it.",author:"Mary Oliver"},
+  {text:"You only have to let the soft animal of your body love what it loves.",author:"Mary Oliver"},
+  {text:"I am not afraid of storms, for I am learning how to sail my ship.",author:"Louise May Alcott"},
+  {text:"One cannot think well, love well, sleep well, if one has not dined well.",author:"Virginia Woolf"},
+  {text:"You cannot find peace by avoiding life.",author:"Virginia Woolf"},
+  {text:"I thought how unpleasant it is to be locked out; and I thought how it is worse, perhaps, to be locked in.",author:"Virginia Woolf"},
+  {text:"No tengo miedo de las tormentas, pues estoy aprendiendo a navegar mi barco.",author:"Blanca Varela"},
+  {text:"El poema no pide nada. El poema da.",author:"Blanca Varela"},
+  {text:"Soy la que soy. Piedra y paloma. Noche y día.",author:"Blanca Varela"},
+  {text:"Todo lo que sé lo aprendí del dolor y de la alegría.",author:"Blanca Varela"},
+  {text:"I am not afraid. I was born to do this.",author:"Joan of Arc"},
+  {text:"Hope is the thing with feathers that perches in the soul.",author:"Emily Dickinson"},
+  {text:"I'm nobody! Who are you? Are you nobody too?",author:"Emily Dickinson"},
+  {text:"Forever is composed of nows.",author:"Emily Dickinson"},
+  {text:"I dwell in possibility.",author:"Emily Dickinson"},
+  {text:"Viajar es descubrir que todos tienen razón.",author:"Fernando Pessoa"},
+  {text:"No soy nada. Nunca seré nada. No puedo querer ser nada. Aparte de esto, tengo en mí todos los sueños del mundo.",author:"Fernando Pessoa"},
+  {text:"Soy el intervalo entre lo que quiero y lo que la vida ha hecho de mí.",author:"Fernando Pessoa"},
+];
 
-WellMed
+function getDailyQuote() {
+  const day = Math.floor(Date.now() / 86400000);
+  return QUOTES[day % QUOTES.length];
+}
 
-World Bank
+const q = getDailyQuote();
+document.getElementById('quote-text').textContent = `"${q.text}"`;
+document.getElementById('quote-author').textContent = `— ${q.author}`;
 
-Internal
+// ── CLIENT DATA ──
+const CLIENTS = {
+  airbnb:{label:'Airbnb'},anaplan:{label:'Anaplan'},atlantic:{label:'Atlantic Health'},
+  baptist:{label:'Baptist Health'},behr:{label:'Behr'},boost:{label:'Boost Mobile'},
+  compass:{label:'Compass'},directv:{label:'DirecTV'},gap:{label:'GAP'},
+  gehealthcare:{label:'GE Healthcare'},greenshield:{label:'Greenshield'},inova:{label:'Inova'},
+  kirkland:{label:'Kirkland'},lhh:{label:'LHH'},link:{label:'Link'},medtronic:{label:'Medtronic'},
+  moore:{label:'Moore'},nbcu:{label:'NBCU'},northwell:{label:'Northwell'},rwbj:{label:'RWBJ'},
+  rwjf:{label:'RWJF'},sharkninja:{label:'SharkNinja'},stripe:{label:'Stripe'},
+  taylormade:{label:'TaylorMade'},christhospital:{label:'The Christ Hospital'},
+  trupanion:{label:'Trupanion'},twilio:{label:'Twilio'},vail:{label:'Vail'},
+  wellmed:{label:'WellMed'},worldbank:{label:'World Bank'},internal:{label:'Internal'}
+};
 
+// ── WEEK UTILITIES ──
+function getMondayOf(date) {
+  const d = new Date(date);
+  d.setHours(0,0,0,0);
+  const day = d.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  const diff = day === 0 ? -6 : 1 - day; // go back to Monday
+  d.setDate(d.getDate() + diff);
+  return d;
+}
 
+function weekKey(monday) {
+  return monday.toISOString().slice(0,10);
+}
 
+function formatMonday(monday) {
+  return monday.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
 
-ARCHIVE
-0
+function weekRelLabel(mondayKey) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const curMon = getMondayOf(today);
+  // Parse key as local date to avoid timezone shifting
+  const [y,m,d] = mondayKey.split('-').map(Number);
+  const mon = new Date(y, m-1, d);
+  const diff = Math.round((mon - curMon) / (7*86400000));
+  if (diff === 0) return {rel:'Current week',cls:'current'};
+  if (diff === -1) return {rel:'Last week',cls:'last'};
+  if (diff === 1) return {rel:'Next week',cls:'next'};
+  if (diff > 1) return {rel:'Future week',cls:'future'};
+  return {rel:'Past week',cls:'past'};
+}
 
+function formatMonday(monday) {
+  return monday.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function generateWeekOptions() {
+  const curMon = getMondayOf(new Date());
+  const weeks = [];
+  for (let i = -1; i <= 8; i++) {
+    const d = new Date(curMon);
+    d.setDate(d.getDate() + i*7);
+    const key = weekKey(d);
+    const {rel} = weekRelLabel(key);
+    weeks.push({key, label:`${rel} · ${formatMonday(d)}`});
+  }
+  return weeks;
+}
+
+function populateWeekSelect(selectId) {
+  const sel = document.getElementById(selectId);
+  sel.innerHTML = '';
+  generateWeekOptions().forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w.key;
+    opt.textContent = w.label;
+    if (w.label.startsWith('Current')) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+// ── STORAGE ──
+const LS = 'maria_tasks_v5';
+function load() { try { return JSON.parse(localStorage.getItem(LS)||'[]'); } catch { return []; } }
+function save(t) { localStorage.setItem(LS, JSON.stringify(t)); }
+
+// ── SEED HARDCODED TASKS ──
+function seedIfEmpty() {
+  if (load().length > 0) return;
+  const tasks = [
+    // ── SEP 14 ── (week key: 2024-09-09)
+    {id:'h1',title:'Perfil Julian Lozano',clientKey:'internal',client:'Internal',contact:'Julian Lozano',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h2',title:'Scenario planning para Atlantic Health 013. Thinking behind it and then reach out to John Stoll',clientKey:'atlantic',client:'Atlantic Health 013',contact:'John Stoll',week:'2026-09-14',done:false,subtasks:[
+      {id:'h2a',title:'GCD 10% John Stoll',done:false},
+      {id:'h2b',title:'XDL 50% Claudia Carbutt?',done:false},
+      {id:'h2c',title:'VDL 50% — potentially we can share Pablo with 045 splitting 50/50. Get John stills pov if Pablo can be any of these roles. FTO 2 first weeks',done:false},
+      {id:'h2d',title:'SVD 100% FL?',done:false},
+      {id:'h2e',title:'Lesly y Cynthia van a hablar con ellas para saber future campaigns. Para octubre no creemos que haya algo entonces se pueden pasar las personas: pablo VDL. El diseño ya existe y con John ahí es posible que ese resource se cambie',done:false},
+      {id:'h2f',title:'Flex creative impacta otras personas — Cintia pasarle a Erica',done:false},
+      {id:'h2g',title:'Come back to the team Ally y Josh con options y mirar si hay que FL. We can freelance and we can piece — open to anything',done:false},
+    ]},
+    {id:'h3',title:'Update notes que mandó Jen el lunes',clientKey:'internal',client:'Internal',contact:'Jen',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h4',title:'Update thread del coverage de Kelly',clientKey:'internal',client:'Internal',contact:'Kelly',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h5',title:'Stripe follow up on Rachel Pendegrass start y coverage de DD',clientKey:'internal',client:'Internal',contact:'Rachel Pendegrass',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h6',title:'Medtronic 022',clientKey:'medtronic',client:'Medtronic 022',contact:'Rebecca',week:'2026-09-14',done:false,subtasks:[
+      {id:'h6a',title:'CD writing 13% 5h/w Victor Rivera',done:false},
+      {id:'h6b',title:'VDL 50%+25% Ariana Marks?',done:false},
+      {id:'h6c',title:'SXD 25%+50% Julián Calderón? Rebecca confirmar figma',done:false},
+      {id:'h6d',title:'Confirmar Jey lo de figma en el vetting de Julián',done:false},
+      {id:'h6e',title:'Jey confirmar con Julian',done:false},
+      {id:'h6f',title:'Informar a Julián y luego hard book en KAN',done:false},
+      {id:'h6g',title:'Victor Rivera for CD writing — esperando su confirmación',done:false},
+    ]},
+    {id:'h7',title:'Motion need',clientKey:'rwbj',client:'RWBJ',contact:'',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h8',title:'Medtronic — seguimiento general',clientKey:'medtronic',client:'Medtronic',contact:'',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h9',title:'Motion request',clientKey:'trupanion',client:'Trupanion',contact:'',week:'2026-09-14',subtasks:[],done:false},
+    {id:'h10',title:'Request Stephanie Torres',clientKey:'trupanion',client:'Trupanion',contact:'Stephanie Torres',week:'2026-09-14',subtasks:[],done:false},
+
+    // ── SEP 21 ── (week key: 2024-09-16)
+    {id:'h11',title:'In-person team — revisar',clientKey:'taylormade',client:'TaylorMade',contact:'',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h12',title:'GAP 003 allocation in KAN revisar y luego scenario planning — no están todavía',clientKey:'gap',client:'GAP 003',contact:'',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h13',title:'Confirmar salida de FL',clientKey:'internal',client:'Internal',contact:'',week:'2026-09-21',done:false,subtasks:[
+      {id:'h13a',title:'Steven Chu — 9.25',done:false},
+      {id:'h13b',title:'Ridvan Maloku — 9.25',done:false},
+      {id:'h13c',title:'Juliana Cogo — 9.30',done:false},
+    ]},
+    {id:'h14',title:'EOW Colton — confirmación de soft bookear a Ariana para DirecTV to show intent',clientKey:'directv',client:'DirecTV',contact:'EOW Colton · Ariana',week:'2026-09-21',done:false,subtasks:[
+      {id:'h14a',title:'Ariana soft allocated',done:false},
+      {id:'h14b',title:'Van a mover otro resource',done:false},
+      {id:'h14c',title:'Revisar soft allocation de Ariana para que sea hard once we have feedback',done:false},
+    ]},
+    {id:'h15',title:'Allocations de Maddy para que entienda lo que pasa en sus proyectos',clientKey:'internal',client:'Internal',contact:'Maddy',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h16',title:'Update req de sid para el request de motion de Erica y Laura Parish',clientKey:'rwbj',client:'RWBJ',contact:'Erica · Laura Parish',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h17',title:'FTO hacer seguimiento — enviar al equipo si hay problema',clientKey:'vail',client:'Vail',contact:'Mukund',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h18',title:'Follow up con el equipo sobre el allocation de Laura Parish — parece que es más alta, quisiéramos saber si hay que re-visar',clientKey:'rwbj',client:'RWBJ',contact:'Laura Parish',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h19',title:'Lau help FL extension — persona apellido Korn',clientKey:'airbnb',client:'Apple',contact:'Lau',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h20',title:'Inova recast',clientKey:'inova',client:'Inova',contact:'Jenn',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h21',title:'New York Life deck request — ayuda Kelly',clientKey:'internal',client:'New York Life',contact:'Kelly',week:'2026-09-21',done:false,subtasks:[
+      {id:'h21a',title:'Carrier staffing — preguntándole al equipo (Rosie) si podemos usar a Jair para este request',done:false},
+      {id:'h21b',title:'Vetting Jair + manager',done:false},
+    ]},
+    {id:'h22',title:'Sarah Weilland cost update in Cantata',clientKey:'internal',client:'Internal',contact:'Jenn',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h23',title:'KAN profile Alex Rossetti — pendiente de Tyler to confirm cost rate update',clientKey:'internal',client:'Internal',contact:'Tyler',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h24',title:'Soyoung — seguimiento',clientKey:'atlantic',client:'Atlantic Health',contact:'Soyoung',week:'2026-09-21',subtasks:[],done:false},
+    {id:'h25',title:'Inova 008 — staffing',clientKey:'inova',client:'Inova 008',contact:'Jen',week:'2026-09-21',done:false,subtasks:[
+      {id:'h25a',title:'Creative director copy with health experience → freelance',done:false},
+      {id:'h25b',title:'Add one writer senior → vendor especial para esto',done:false},
+      {id:'h25c',title:'Release Faye at some point',done:false},
+      {id:'h25d',title:'Crear el draft para el FL req — Jen me da la info y yo monto todo y ella lo revisa antes. 100% the whole project Us Canada based',done:false},
+    ]},
+    {id:'h26',title:'Wellmed — staffing',clientKey:'wellmed',client:'WellMed',contact:'',week:'2026-09-21',done:false,subtasks:[
+      {id:'h26a',title:'Ilgin — mirar si le subimos el tiempo a 75% las primeras dos semanas',done:false},
+      {id:'h26b',title:'Emily 50-50 con Google la primera semana',done:false},
+      {id:'h26c',title:'Vet Emily\'s manager',done:false},
+      {id:'h26d',title:'Vet Emily sola',done:false},
+    ]},
+
+    // ── SEP 28 ── (week key: 2024-09-23)
+    {id:'h27',title:'Leslie\'s PTO backfill — scenario planning',clientKey:'rwjf',client:'RWJF',contact:'Leslie',week:'2026-09-28',subtasks:[],done:false},
+
+    // ── NOV 2 ── (week key: 2024-10-28)
+    {id:'h28',title:'Darrin Crescenzi extension',clientKey:'internal',client:'Internal',contact:'Darrin Crescenzi',week:'2026-11-02',subtasks:[],done:false},
+  ];
+  save(tasks);
+}
+
+// ── RENDER ──
+function render() {
+  const tasks = load();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const curMon = getMondayOf(today);
+
+  // Group by week
+  const byWeek = {};
+  tasks.forEach(t => {
+    if (!byWeek[t.week]) byWeek[t.week] = [];
+    byWeek[t.week].push(t);
+  });
+
+  // Sort weeks chronologically
+  const weekKeys = Object.keys(byWeek).sort();
+
+  // Separate active vs archivable weeks
+  const activeWeeks = [];
+  const archiveWeeks = [];
+
+  weekKeys.forEach(wk => {
+    const mon = new Date(wk + 'T00:00:00');
+    const isPast = mon < curMon;
+    const allDone = byWeek[wk].every(t => t.done && (t.subtasks||[]).every(s=>s.done));
+    if (isPast && allDone) {
+      archiveWeeks.push(wk);
+    } else {
+      activeWeeks.push(wk);
+    }
+  });
+
+  // Render active weeks
+  const container = document.getElementById('main-container');
+  container.innerHTML = '';
+  activeWeeks.forEach(wk => {
+    container.appendChild(renderWeekSection(wk, byWeek[wk]));
+  });
+
+  // Render archive
+  const archBody = document.getElementById('archive-body');
+  archBody.innerHTML = '';
+  document.getElementById('archive-count').textContent = archiveWeeks.length;
+  archiveWeeks.forEach(wk => {
+    archBody.appendChild(renderWeekSection(wk, byWeek[wk], true));
+  });
+}
+
+function renderWeekSection(wk, tasks, isArchive=false) {
+  const {rel, cls} = weekRelLabel(wk);
+  const mon = new Date(wk + 'T00:00:00');
+  const dateStr = formatMonday(mon);
+  const openCount = tasks.filter(t=>!t.done).length;
+
+  const section = document.createElement('div');
+  section.className = 'week-section';
+  section.dataset.week = wk;
+
+  // Header
+  const header = document.createElement('div');
+  header.className = 'week-header';
+  header.innerHTML = `
+    <span class="week-chevron">▾</span>
+    <span class="week-label-rel ${cls}">${rel}</span>
+    <span class="week-label-text">· ${dateStr}</span>
+    ${openCount > 0 ? `<span class="week-task-count">${openCount} open</span>` : ''}
+  `;
+  header.addEventListener('click', () => {
+    section.classList.toggle('collapsed');
+  });
+  section.appendChild(header);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'week-body';
+  tasks.forEach(t => body.appendChild(renderTask(t)));
+  section.appendChild(body);
+
+  return section;
+}
+
+function checkIcon(size='9 7') {
+  return `<svg width="${size}" fill="none" viewBox="0 0 ${size}"><path d="${size==='9 7'?'M1 3.5l2.5 2.5 4.5-5':'M1 3l2 2 4-4'}" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function renderTask(t) {
+  const hasSubs = t.subtasks && t.subtasks.length > 0;
+  const cv = `--${t.clientKey}`;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'task-group-wrapper';
+  wrapper.dataset.id = t.id;
+
+  const row = document.createElement('div');
+  row.className = `task-row${t.done?' done':''}${hasSubs?' has-subtasks':''}`;
+  row.style.cssText = `--client-color:var(${cv});--client-bg:var(${cv}-bg)`;
+  row.dataset.id = t.id;
+
+  row.innerHTML = `
+    <div class="check">${checkIcon()}</div>
+    <div class="task-body">
+      <div class="task-meta-row">
+        <span class="client-badge" style="background:var(${cv}-bg);color:var(${cv})">${esc(t.client)}</span>
+        ${t.contact ? `<span class="contact-badge" contenteditable="true" spellcheck="false">${esc(t.contact)}</span>` : `<span class="contact-badge add-contact" style="color:var(--border);cursor:text;" contenteditable="true" spellcheck="false" data-placeholder="+ contact"></span>`}
+      </div>
+      <div class="task-title" contenteditable="true" spellcheck="false">${esc(t.title)}</div>
+    </div>
+    <button class="task-del" title="Delete">
+      <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>`;
+
+  // Toggle done
+  row.querySelector('.check').addEventListener('click', e => {
+    e.stopPropagation();
+    const tasks = load();
+    const task = tasks.find(x=>x.id===t.id);
+    if (task) { task.done = !task.done; save(tasks); render(); }
+  });
+
+  // Inline edit title
+  const titleEl = row.querySelector('.task-title');
+  titleEl.addEventListener('blur', () => {
+    const tasks = load(); const task = tasks.find(x=>x.id===t.id);
+    if (task) { task.title = titleEl.textContent.trim(); save(tasks); }
+  });
+  titleEl.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();titleEl.blur();} });
+
+  // Inline edit contact
+  const contactEl = row.querySelector('.contact-badge');
+  contactEl.addEventListener('blur', () => {
+    const tasks = load(); const task = tasks.find(x=>x.id===t.id);
+    if (task) { task.contact = contactEl.textContent.trim(); save(tasks); }
+  });
+  contactEl.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();contactEl.blur();} });
+
+  // Delete
+  row.querySelector('.task-del').addEventListener('click', e => {
+    e.stopPropagation();
+    if (!confirm('Delete this task?')) return;
+    save(load().filter(x=>x.id!==t.id));
+    render();
+  });
+
+  // Context menu
+  row.addEventListener('contextmenu', e => { e.preventDefault(); showCtxMenu(e, t.id); });
+  let longPress;
+  row.addEventListener('touchstart', e => { longPress = setTimeout(()=>showCtxMenu(e.touches[0],t.id),500); },{passive:true});
+  row.addEventListener('touchend', ()=>clearTimeout(longPress));
+  row.addEventListener('touchmove', ()=>clearTimeout(longPress));
+
+  wrapper.appendChild(row);
+
+  // Subtasks
+  if (hasSubs) {
+    const subContainer = document.createElement('div');
+    subContainer.className = 'subtask-container';
+    t.subtasks.forEach(s => subContainer.appendChild(renderSubtask(t, s)));
+    wrapper.appendChild(subContainer);
+  }
+
+  return wrapper;
+}
+
+function renderSubtask(task, s) {
+  const cv = `--${task.clientKey}`;
+  const row = document.createElement('div');
+  row.className = `subtask-row${s.done?' done':''}`;
+  row.style.cssText = `--client-color:var(${cv})`;
+  row.dataset.tid = task.id;
+  row.dataset.sid = s.id;
+
+  row.innerHTML = `
+    <div class="check">${checkIcon('8 6')}</div>
+    <div class="task-body">
+      <div class="task-title" contenteditable="true" spellcheck="false">${esc(s.title)}</div>
+    </div>
+    <button class="task-del sub-del" title="Delete subtask" style="opacity:0;transition:opacity 0.15s;">
+      <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>`;
+
+  // Toggle
+  row.querySelector('.check').addEventListener('click', e => {
+    e.stopPropagation();
+    const tasks = load(); const task2 = tasks.find(x=>x.id===task.id);
+    if (task2) { const sub = task2.subtasks.find(x=>x.id===s.id); if(sub){sub.done=!sub.done;save(tasks);render();} }
+  });
+
+  // Inline edit
+  const titleEl = row.querySelector('.task-title');
+  titleEl.addEventListener('blur', () => {
+    const tasks = load(); const task2 = tasks.find(x=>x.id===task.id);
+    if (task2) { const sub = task2.subtasks.find(x=>x.id===s.id); if(sub){sub.title=titleEl.textContent.trim();save(tasks);} }
+  });
+  titleEl.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();titleEl.blur();} });
+
+  // Delete subtask
+  const delBtn = row.querySelector('.sub-del');
+  row.addEventListener('mouseenter', () => delBtn.style.opacity='1');
+  row.addEventListener('mouseleave', () => delBtn.style.opacity='0');
+  delBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const tasks = load(); const task2 = tasks.find(x=>x.id===task.id);
+    if (task2) { task2.subtasks = task2.subtasks.filter(x=>x.id!==s.id); save(tasks); render(); }
+  });
+
+  return row;
+}
+
+// ── CONTEXT MENU ──
+let ctxTargetId = null;
+function showCtxMenu(e, taskId) {
+  closeCtxMenu();
+  ctxTargetId = taskId;
+  const menu = document.createElement('div');
+  menu.className = 'ctx-menu';
+  menu.id = 'ctx-menu';
+  menu.style.left = Math.min(e.clientX, window.innerWidth-200)+'px';
+  menu.style.top = Math.min(e.clientY, window.innerHeight-130)+'px';
+  menu.innerHTML = `
+    <button class="ctx-item" onclick="openSubModal('${taskId}')">＋ &nbsp;Add subtask</button>
+    <button class="ctx-item" onclick="openMoveModal('${taskId}')">↗ &nbsp;Move to week</button>
+    <button class="ctx-item danger" onclick="deleteTask('${taskId}')">✕ &nbsp;Delete</button>
+  `;
+  document.body.appendChild(menu);
+  setTimeout(()=>document.addEventListener('click',closeCtxMenu,{once:true}),10);
+}
+function closeCtxMenu(){ document.getElementById('ctx-menu')?.remove(); }
+function deleteTask(id){
+  closeCtxMenu();
+  if(!confirm('Delete this task?'))return;
+  save(load().filter(t=>t.id!==id));
+  render();
+}
+
+// ── ADD TASK MODAL ──
+function openModal() {
+  populateWeekSelect('f-week');
+  document.getElementById('modal-backdrop').classList.add('open');
+  setTimeout(()=>document.getElementById('f-title').focus(),50);
+}
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('open');
+  document.getElementById('f-title').value='';
+  document.getElementById('f-contact').value='';
+  document.getElementById('f-subtasks').innerHTML='';
+}
+function addSubRow(containerId) {
+  const box = document.getElementById(containerId);
+  const row = document.createElement('div');
+  row.className = 'sub-row';
+  row.innerHTML = `<input type="text" class="form-input" placeholder="Subtask…" autocomplete="off"/>
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;flex-shrink:0;">×</button>`;
+  box.appendChild(row);
+  row.querySelector('input').focus();
+}
+function saveTask() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { document.getElementById('f-title').style.borderColor='#E02424'; return; }
+  const clientKey = document.getElementById('f-client').value;
+  const contact = document.getElementById('f-contact').value.trim();
+  const week = document.getElementById('f-week').value;
+  const subs = Array.from(document.querySelectorAll('#f-subtasks input'))
+    .map(i=>i.value.trim()).filter(Boolean)
+    .map((s,i)=>({id:`s${Date.now()}${i}`,title:s,done:false}));
+  const task = {
+    id:`t${Date.now()}`,title,clientKey,
+    client:CLIENTS[clientKey]?.label||clientKey,
+    contact,week,subtasks:subs,done:false,
+    created:new Date().toISOString()
+  };
+  const tasks = load(); tasks.unshift(task); save(tasks);
+  closeModal(); render();
+}
+document.getElementById('f-title').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+document.getElementById('modal-backdrop').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+
+// ── ADD SUBTASK MODAL ──
+let subTargetId = null;
+function openSubModal(taskId) {
+  closeCtxMenu();
+  subTargetId = taskId;
+  document.getElementById('sub-inputs').innerHTML='';
+  document.getElementById('sub-modal-backdrop').classList.add('open');
+  addSubRow('sub-inputs');
+}
+function closeSubModal() {
+  document.getElementById('sub-modal-backdrop').classList.remove('open');
+  subTargetId = null;
+}
+function saveSubtasks() {
+  const inputs = document.querySelectorAll('#sub-inputs input');
+  const newSubs = Array.from(inputs).map(i=>i.value.trim()).filter(Boolean);
+  if (!newSubs.length) { closeSubModal(); return; }
+  const tasks = load();
+  const task = tasks.find(t=>t.id===subTargetId);
+  if (task) {
+    newSubs.forEach((s,i)=>task.subtasks.push({id:`s${Date.now()}${i}`,title:s,done:false}));
+    save(tasks);
+  }
+  closeSubModal(); render();
+}
+document.getElementById('sub-modal-backdrop').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSubModal();});
+
+// ── MOVE WEEK MODAL ──
+let moveTargetId = null;
+function openMoveModal(taskId) {
+  closeCtxMenu();
+  moveTargetId = taskId;
+  const list = document.getElementById('move-week-list');
+  list.innerHTML = '';
+  generateWeekOptions().forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-primary';
+    btn.style.cssText = 'background:var(--surface);color:var(--text);border:1px solid var(--border);text-align:left;font-weight:400;';
+    btn.textContent = w.label;
+    btn.onclick = () => { moveTask(taskId, w.key); closeMoveModal(); };
+    list.appendChild(btn);
+  });
+  document.getElementById('move-modal-backdrop').classList.add('open');
+}
+function closeMoveModal() {
+  document.getElementById('move-modal-backdrop').classList.remove('open');
+  moveTargetId = null;
+}
+function moveTask(taskId, newWeek) {
+  const tasks = load();
+  const task = tasks.find(t=>t.id===taskId);
+  if (task) { task.week = newWeek; save(tasks); render(); }
+}
+document.getElementById('move-modal-backdrop').addEventListener('click',e=>{if(e.target===e.currentTarget)closeMoveModal();});
+
+// ── ARCHIVE TOGGLE ──
+function toggleArchive() {
+  const body = document.getElementById('archive-body');
+  const toggle = document.getElementById('archive-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+// ── UTILS ──
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── INIT ──
+seedIfEmpty();
+render();
+</script>
+</body>
+</html>
