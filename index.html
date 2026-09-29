@@ -90,6 +90,18 @@
 .pb-add-step:hover{border-color:#7E3AF2;color:#7E3AF2;}
 .pb-add-card{background:none;border:1.5px dashed var(--border);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit;text-align:left;width:100%;display:flex;align-items:center;gap:7px;transition:border-color 0.15s,color 0.15s;}
 .pb-add-card:hover{border-color:#7E3AF2;color:#7E3AF2;}
+.pb-card-header .pb-drag{cursor:grab;color:var(--border);font-size:12px;padding:2px 4px;border-radius:4px;transition:color 0.15s;user-select:none;flex-shrink:0;}
+.pb-card-header .pb-drag:hover{color:var(--muted);}
+.pb-card.pb-dragging{opacity:0.35;}
+.pb-drop-above{box-shadow:0 -3px 0 0 #7E3AF2;}
+.pb-drop-below{box-shadow:0 3px 0 0 #7E3AF2;}
+.pb-del{background:none;border:none;cursor:pointer;color:var(--border);font-size:13px;padding:2px 5px;border-radius:4px;flex-shrink:0;transition:color 0.15s,background 0.15s;line-height:1;}
+.pb-del:hover{color:#E02424;background:#FEE2E2;}
+.pb-icon-btn{cursor:pointer;border-radius:7px;transition:transform 0.1s;user-select:none;}
+.pb-icon-btn:hover{transform:scale(1.15);}
+.emoji-picker{position:fixed;z-index:600;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,0.15);padding:10px;width:240px;display:flex;flex-wrap:wrap;gap:4px;}
+.emoji-opt{font-size:20px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.1s;line-height:1;}
+.emoji-opt:hover{background:var(--bg);}
 
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
@@ -338,69 +350,6 @@ header h1{font-size:15px;font-weight:600;}
     </div>
     <div id="pb-list">
 
-      <div class="pb-card open">
-        <div class="pb-card-header" onclick="togglePb(this.parentElement)">
-          <div class="pb-icon" style="background:#F3EEFF;">🎬</div>
-          <div style="flex:1"><div class="pb-title">Motion Request</div><div class="pb-sub">When a client needs motion design</div></div>
-          <span class="pb-chevron">▾</span>
-        </div>
-        <div class="pb-body">
-          <div class="pb-steps" id="steps-motion">
-            <div class="pb-step"><div class="pb-step-num">1</div><div class="pb-step-content"><div class="pb-step-title">Ask the key questions</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">Add the questions you send the client — format, dimensions, delivery date, existing assets…</div></div></div>
-            <div class="pb-step"><div class="pb-step-num">2</div><div class="pb-step-content"><div class="pb-step-title">Go to Mapu</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">What to check in Mapu, where to submit, who to notify…</div></div></div>
-            <div class="pb-step"><div class="pb-step-num">3</div><div class="pb-step-content"><div class="pb-step-title">Find the right resource</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">KAN search criteria, FL vs FTE, go-to motion people…</div></div></div>
-            <div class="pb-step"><div class="pb-step-num">4</div><div class="pb-step-content"><div class="pb-step-title">Confirm &amp; book</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">Soft-book → confirm → hard-book. Who to notify on the client side.</div></div></div>
-          </div>
-          <button class="pb-add-step" onclick="addPbStep('steps-motion')">+ Add step</button>
-        </div>
-      </div>
-
-      <div class="pb-card">
-        <div class="pb-card-header" onclick="togglePb(this.parentElement)">
-          <div class="pb-icon" style="background:#E8F4EE;">👥</div>
-          <div style="flex:1"><div class="pb-title">Staffing Request</div><div class="pb-sub">New resource request from a project team</div></div>
-          <span class="pb-chevron">▾</span>
-        </div>
-        <div class="pb-body">
-          <div class="pb-steps" id="steps-staffing">
-            <div class="pb-step"><div class="pb-step-num">1</div><div class="pb-step-content"><div class="pb-step-title">Gather request details</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">Role, % allocation, start date, duration, must-have skills…</div></div></div>
-            <div class="pb-step"><div class="pb-step-num">2</div><div class="pb-step-content"><div class="pb-step-title">Scenario planning</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">Internal options, FL, shared resources…</div></div></div>
-          </div>
-          <button class="pb-add-step" onclick="addPbStep('steps-staffing')">+ Add step</button>
-        </div>
-      </div>
-
-      <div class="pb-card">
-        <div class="pb-card-header" onclick="togglePb(this.parentElement)">
-          <div class="pb-icon" style="background:#FEF3C7;">📋</div>
-          <div style="flex:1"><div class="pb-title">FL Extension</div><div class="pb-sub">Extending a freelancer's contract</div></div>
-          <span class="pb-chevron">▾</span>
-        </div>
-        <div class="pb-body">
-          <div class="pb-steps" id="steps-fl">
-            <div class="pb-step"><div class="pb-step-num">1</div><div class="pb-step-content"><div class="pb-step-title">Confirm extension details</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">New end date, same rate or updated? Who approves?</div></div></div>
-          </div>
-          <button class="pb-add-step" onclick="addPbStep('steps-fl')">+ Add step</button>
-        </div>
-      </div>
-
-      <div class="pb-card">
-        <div class="pb-card-header" onclick="togglePb(this.parentElement)">
-          <div class="pb-icon" style="background:#F3F4F6;">📝</div>
-          <div style="flex:1">
-            <div class="pb-title" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()">New request type</div>
-            <div class="pb-sub" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()">Click to add a description</div>
-          </div>
-          <span class="pb-chevron">▾</span>
-        </div>
-        <div class="pb-body">
-          <div class="pb-steps" id="steps-custom1">
-            <div class="pb-step"><div class="pb-step-num">1</div><div class="pb-step-content"><div class="pb-step-title" contenteditable="true" spellcheck="false">Step name</div><div class="pb-step-detail" contenteditable="true" spellcheck="false">Describe what to do…</div></div></div>
-          </div>
-          <button class="pb-add-step" onclick="addPbStep('steps-custom1')">+ Add step</button>
-        </div>
-      </div>
-
     </div>
     <button class="pb-add-card" onclick="addPbCard()">
       <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M7 1.5v11M1.5 7h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -536,7 +485,7 @@ const CLIENTS={
 };
 
 // ── STORAGE ──
-const LS='maria_v4';
+const LS='maria_v5';
 function load(){try{return JSON.parse(localStorage.getItem(LS)||'[]');}catch{return[];}}
 function save(t){localStorage.setItem(LS,JSON.stringify(t));}
 
@@ -546,87 +495,91 @@ function seedIfEmpty(){
   const d=(mo,day)=>new Date(2026,mo-1,day).toISOString();
   save([
     // ── INTERNAL ──
-    {id:'i1',clientKey:'internal',code:'',title:'prep for the meeting with jhon profiles del equipo',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'i2',clientKey:'internal',code:'',title:'reunion con jhon atlantic healt 013',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'i3',clientKey:'internal',code:'FOA',title:'FOA sr writer FL req',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'i4',clientKey:'internal',code:'atlh',title:'Motion FL request for Ridvan',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'i5',clientKey:'internal',code:'ATL H',title:'FL req lesly atlh',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'i6',clientKey:'internal',code:'',title:'kickoff - reuniones muy importantes',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'i7',clientKey:'internal',code:'HSIP P2',title:'notas de la reu 9.25: kelly analiza les dice qué personas según lo que piden tenemos disponibles y como no hay capacity entonces que necesitamos FL: luego qué necesidades específicas tenemos para diseño para tenerlo en cuenta',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'i3',clientKey:'internal',code:'FOA',title:'FOA sr writer FL req',date:d(9,29),subtasks:[],done:true,archived:false},
+    {id:'i4',clientKey:'internal',code:'atlh',title:'Motion FL request for Ridvan',date:d(9,29),subtasks:[],done:true,archived:false},
+    {id:'i5',clientKey:'internal',code:'ATL H',title:'FL req lesly atlh',date:d(9,29),subtasks:[],done:true,archived:false},
+
+    // ── DAILY TASKS ──
+    {id:'dt1',clientKey:'daily-tasks',code:'',title:'prep for the meeting with jhon profiles del equipo',date:d(9,29),done:false,archived:false,subtasks:[
+      {id:'dt1a',title:'katie lau - get profile from manager',done:false},
+      {id:'dt1b',title:'dallas ready',done:true},
+      {id:'dt1c',title:'soyoung get profile',done:true},
+    ]},
+    {id:'dt2',clientKey:'daily-tasks',code:'',title:'Vail request en el creative call — confirmar, quedó perdida',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── ANAPLAN ──
-    {id:'an1',clientKey:'anaplan',code:'none',title:'creative ask: writing. Rebecca Baker',date:d(9,28),subtasks:[],done:false,archived:false},
+    {id:'an1',clientKey:'anaplan',code:'none',title:'creative ask: writing. Rebecca Baker',date:d(9,29),subtasks:[],done:false,archived:false},
 
     // ── ATLANTIC HEALTH ──
-    {id:'a1',clientKey:'atlantic',code:'013',title:'Scenario planning para Atlantic Health 013 — thinking behind it, then reach out to John Stoll',date:d(9,28),done:false,archived:false,subtasks:[
+    {id:'a0',clientKey:'atlantic',code:'013',title:'reunion con jhon atlantic healt 013',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'a1',clientKey:'atlantic',code:'013',title:'Scenario planning para Atlantic Health 013 — thinking behind it, then reach out to John Stoll',date:d(9,29),done:false,archived:false,subtasks:[
       {id:'a1a',title:'GCD 10% John Stoll',done:false},
       {id:'a1b',title:'XDL 50% Katie Lau',done:false},
       {id:'a1c',title:'VDL 50% — dallas dyson',done:false},
       {id:'a1d',title:'SVD 100% Soyoung',done:false},
     ]},
-    {id:'a2',clientKey:'atlantic',code:'',title:'Lesly lync — encontrar reemplazo para Pablo FTO - FL req https://test.greenhouse.io/plans/3564418/approvals',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'a3',clientKey:'atlantic',code:'',title:'Soyoung — revisar',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'a4',clientKey:'atlantic',code:'',title:'Esperando Lesly confirmaciones para abrir FL req',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'a2',clientKey:'atlantic',code:'',title:'Lesly lync — encontrar reemplazo para Pablo FTO - FL req https://test.greenhouse.io/plans/3564418/approvals',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'a3',clientKey:'atlantic',code:'',title:'Soyoung — revisar',date:d(9,29),subtasks:[],done:true,archived:false},
+    {id:'a4',clientKey:'atlantic',code:'',title:'Esperando Lesly confirmaciones para abrir FL req',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── BAPTIST HEALTH ──
-    {id:'b1',clientKey:'baptist',code:'006',title:'roles en noviembre',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'b2',clientKey:'baptist',code:'003',title:'no creative roles',date:d(9,28),subtasks:[],done:false,archived:false},
+    {id:'b1',clientKey:'baptist',code:'006',title:'roles en noviembre',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'b2',clientKey:'baptist',code:'003',title:'no creative roles',date:d(9,29),subtasks:[],done:false,archived:false},
 
     // ── DIRECTV ──
-    {id:'d1',clientKey:'directv',code:'',title:'EOW Colton — confirmación de soft bookear a Ariana para DirecTV to show intent',date:d(9,28),done:true,archived:false,subtasks:[
-      {id:'d1a',title:'Ariana soft allocated',done:false},
-      {id:'d1b',title:'Van a mover otro resource',done:false},
-      {id:'d1c',title:'Revisar soft allocation de Ariana para que sea hard once we have feedback',done:false},
-    ]},
+    {id:'d1',clientKey:'directv',code:'',title:'EOW Colton — confirmación de soft bookear a Ariana para DirecTV to show intent',date:d(9,29),done:true,archived:false,subtasks:[]},
 
     // ── GAP ──
-    {id:'g1',clientKey:'gap',code:'003',title:'Allocation in KAN revisar y luego scenario planning — no están todavía',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'g2',clientKey:'gap',code:'001',title:'revisar alocación qu puso tracy para angella y dalas, creo que no hay next steps, confirmar',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'g1',clientKey:'gap',code:'003',title:'Allocation in KAN revisar y luego scenario planning — no están todavía',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'g2',clientKey:'gap',code:'001',title:'revisar alocación qu puso tracy para angella y dalas, creo que no hay next steps, confirmar',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── INOVA ──
-    {id:'in1',clientKey:'inova',code:'',title:'Inova recast — Jenn message',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'in2',clientKey:'inova',code:'008',title:'Staffing',date:d(9,28),done:true,archived:false,subtasks:[
-      {id:'in2a',title:'Creative director copy with health experience → freelance',done:false},
-      {id:'in2b',title:'Add one writer senior → vendor especial',done:false},
-      {id:'in2c',title:'Release Faye at some point',done:false},
-      {id:'in2d',title:'Crear draft FL req — Jen da info, yo monto, ella revisa. 100% US Canada based',done:false},
-    ]},
+    {id:'in1',clientKey:'inova',code:'',title:'Inova recast — Jenn message',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── MEDTRONIC ──
-    {id:'m1',clientKey:'medtronic',code:'022',title:'Staffing y scenario planning',date:d(9,28),done:false,archived:false,subtasks:[
+    {id:'m1',clientKey:'medtronic',code:'022',title:'Staffing y scenario planning',date:d(9,29),done:false,archived:false,subtasks:[
       {id:'m1a',title:'CD writing 13% 5h/w — Victor Rivera hard booked',done:true},
-      {id:'m1b',title:'VDL 50%+25% Ryan McSwain → ask Lau. Si sí al manager',done:false},
-      {id:'m1c',title:'SXD 25%+50% Julián Calderón — hard booked',done:true},
-      {id:'m1d',title:'Confirmar Jey lo de figma en el vetting de Julián',done:true},
+      {id:'m1b',title:'VDL 50%+25% Ryan McSwain → ask Lau. Si si al manager',done:false},
+      {id:'m1c',title:'SXD 25%+50% Julian Calderon — hard booked',done:true},
+      {id:'m1d',title:'Confirmar Jey lo de figma en el vetting de Julian',done:true},
       {id:'m1e',title:'Jey confirmar con Julian',done:true},
-      {id:'m1f',title:'Informar a Julián y luego hard book en KAN',done:true},
-      {id:'m1g',title:'Victor Rivera for CD writing — esperando confirmación',done:true},
+      {id:'m1f',title:'Informar a Julian y luego hard book en KAN',done:true},
+      {id:'m1g',title:'Victor Rivera for CD writing — esperando confirmacion',done:true},
     ]},
-    {id:'m2',clientKey:'medtronic',code:'',title:'freelance para VDL https://test.greenhouse.io/plans/3562836/approvals',date:d(9,28),subtasks:[],done:false,archived:false},
+    {id:'m2',clientKey:'medtronic',code:'',title:'freelance para VDL https://test.greenhouse.io/plans/3562836/approvals',date:d(9,29),subtasks:[],done:false,archived:false},
 
     // ── RWBJ ──
-    {id:'r1',clientKey:'rwbj',code:'',title:"Leslie's PTO backfill — scenario planning",date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'r2',clientKey:'rwbj',code:'',title:'Motion need — filled Sid FL',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'r3',clientKey:'rwbj',code:'',title:'Update req de sid para el request de motion de Erica y Laura Parish',date:d(9,28),subtasks:[],done:true,archived:false},
-    {id:'r4',clientKey:'rwbj',code:'',title:'Follow up sobre el allocation de Laura Parish — parece más alta, hay que re-visar',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'r1',clientKey:'rwbj',code:'001',title:'motion request octubre',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'r2',clientKey:'rwbj',code:'',title:"Leslie's PTO backfill — scenario planning",date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'r3',clientKey:'rwbj',code:'',title:'Motion need — filled Sid FL',date:d(9,29),subtasks:[],done:true,archived:false},
+    {id:'r4',clientKey:'rwbj',code:'',title:'Update req de sid para el request de motion de Erica y Laura Parish',date:d(9,29),subtasks:[],done:true,archived:false},
+    {id:'r5',clientKey:'rwbj',code:'',title:'Follow up sobre el allocation de Laura Parish — parece mas alta, hay que re-visar',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── STRIPE ──
-    {id:'st1',clientKey:'stripe',code:'',title:'Stripe follow up on Rachel Pendegrass start y coverage de DD',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'st2',clientKey:'stripe',code:'002',title:'scenario planningSXD: Shubneet MalhiSVD: 90% 10.12-11.6 - 4 weeks FL????DD visual design: 25% 10.12-11.6 - 4 weeks Tyler Kratch',date:d(9,28),subtasks:[],done:false,archived:false},
+    {id:'st0',clientKey:'stripe',code:'002',title:'SVD: Maria Pinzon sof allocated coming from Google',date:d(9,29),done:false,archived:false,subtasks:[
+      {id:'st0a',title:'SVD 100% Maria Pinzon soft allocated',done:false},
+      {id:'st0b',title:'SVD 100% Maria Pinzon soft allocated',done:false},
+    ]},
+    {id:'st1',clientKey:'stripe',code:'',title:'Stripe follow up on Rachel Pendegrass start y coverage de DD',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'st2',clientKey:'stripe',code:'002',title:'scenario planningSXD: Shubneet MalhiSVD: 90% 10.12-11.6 - 4 weeks FL????DD visual design: 25% 10.12-11.6 - 4 weeks Tyler Kratch',date:d(9,29),subtasks:[],done:false,archived:false},
 
     // ── TAYLORMADE ──
-    {id:'tm1',clientKey:'taylormade',code:'',title:'In-person team — revisar',date:d(9,28),subtasks:[],done:false,archived:false},
+    {id:'tm1',clientKey:'taylormade',code:'',title:'In-person team — revisar',date:d(9,29),subtasks:[],done:false,archived:false},
 
     // ── TRUPANION ──
-    {id:'t1',clientKey:'trupanion',code:'',title:'Motion request',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'t2',clientKey:'trupanion',code:'',title:'Request Stephanie Torres',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'t1',clientKey:'trupanion',code:'',title:'Motion request para el 4th oct',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'t2',clientKey:'trupanion',code:'',title:'Request Stephanie Torres',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── VAIL ──
-    {id:'v1',clientKey:'vail',code:'031',title:'Darrin Crescenzi extension',date:d(9,28),subtasks:[],done:false,archived:false},
-    {id:'v2',clientKey:'vail',code:'030',title:'FTO Mukund Asagodu hacer seguimiento — enviar al equipo si hay problema - falta que fRauss apruebe el request',date:d(9,28),subtasks:[],done:true,archived:false},
+    {id:'v0',clientKey:'vail',code:'027',title:'cesar marshal -> extending AB testing team - request from Jay | kelly propuso a bianca',date:d(9,29),done:false,archived:false,subtasks:[
+      {id:'v0a',title:'cesar extend — jay mention that AB might need to extend do we want to plan for cesar to continue through october 31, reminder FTO, do we want to show extend',done:true},
+      {id:'v0b',title:'Bianca 015: chatic con jay this morning, is our understanding bianca should be extending with the team, can you review and update KAN',done:true},
+    ]},
+    {id:'v1',clientKey:'vail',code:'031',title:'Darrin Crescenzi extension',date:d(9,29),subtasks:[],done:false,archived:false},
+    {id:'v2',clientKey:'vail',code:'030',title:'FTO Mukund Asagodu hacer seguimiento — enviar al equipo si hay problema - falta que fRauss apruebe el request',date:d(9,29),subtasks:[],done:true,archived:false},
 
     // ── WELLMED ──
-    {id:'w1',clientKey:'wellmed',code:'',title:'Staffing',date:d(9,28),done:false,archived:false,subtasks:[
+    {id:'w1',clientKey:'wellmed',code:'',title:'Staffing',date:d(9,29),done:false,archived:false,subtasks:[
       {id:'w1a',title:'Ilgin — mirar si subimos tiempo a 75% primeras dos semanas',done:false},
       {id:'w1b',title:'Emily 50-50 con Google la primera semana',done:false},
       {id:'w1c',title:"Vet Emily's manager",done:false},
@@ -1268,61 +1221,216 @@ function switchTab(tab,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+tab).classList.add('active');
   btn.classList.add('active');
+  if(tab==='requests')renderRequests();
 }
 
 // ── REQUESTS ──
-function togglePb(card){card.classList.toggle('open');}
+const EMOJIS=['🎬','👥','📋','📝','📌','🔁','📣','🧩','💡','🛠️','📊','🗂️','✉️','🔔','📅','⚡','🎯','🧾','🤝','📐'];
 
-function addPbStep(containerId){
-  const container=document.getElementById(containerId);
-  const count=container.querySelectorAll('.pb-step').length+1;
+const DEFAULT_PB_DATA=[
+  {id:'pb-profile',emoji:'🪪',bg:'#F3F4F6',title:'Get someone\'s profile',sub:'',steps:[
+    {title:'Step name',detail:'Enviar a la persona el template para tener su perfil'},
+    {title:'Complete Blueprint',detail:'Pegar el perfil de la persona en Blueprint para documentación https://docs.superhuman.com/d/Team-Design-Portal_dfB2CuTF7tu/Team-Design-Portal_suXXfqPP'},
+    {title:'Template para enviar a la persona',detail:'Hi (PERSON) Nice to meet you - I\'m a new TD team member for the Creative craft! Working on the non Apple/Google world, nice to Slack-meet you 🙌\n\nReaching out because we\'re working on a new data base and updating the profiles of our team members! So, the request: can you please send me a very short summary of your profile with the following details?\n\nProfile:\nStrengths:\nLast project:\n\nAn example:\nProfile: Designer specializing in UI Design and Design Systems.\nStrengths:\n• Creation and adaptation of UI interfaces from scratch.\n• Design, documentation, and maintenance of Design Systems and components. Figma workflow automation (plugins and agents).\n• Complementary skills in UX, product development, business, and data visualization/analysis. Intermediate knowledge of HTML and CSS for prototyping and other developments.\n• Strategic problem-solver who analyzes the rationale and business impact behind every UI and UX decision\nLast project: GFE\n\nThanks so much!'},
+  ]},
+  {id:'pb-vetting-mgr',emoji:'🪬',bg:'#F3F4F6',title:'Vetting a manager',sub:'Preguntarte al manager: oye tenemos abc te gusta para x persona?',steps:[
+    {title:'Template here:',detail:'Here\'s the slack template to make it easier to copy and paste in slack:\n\nTO MANAGER ONLY:\n\nHi [MANAGER NAME] - Reaching out about [NAME\'S] next project opportunity.\n[Insert any additional info if needed]\n\nDetails Below:\n\n\n• Client:.\n• Project: [Project name as shown in KAN].\n• PM: [PM\'s full name] .\n• Timing/Allocation: 50% [DATE RANGE] & 100% [DATE RANGE].\n• We will flag upcoming FTO [DATES] to the PM.\n• PM Contact: .\n• TLDR: [High-level summary of project].\n• Casting Considerations:.\n• .\n• Team Mix:.\n• ECD:.\n• GDD: .\n• VDL:.\n• XDL:.\n• SVD: .\n• SXD: .\n• Motion: .\n\n[INSERT SCREENSHOT OF INDIVIDUALS ALLOCATIONS FROM KAN FOR VISUAL]\n\nLet me know if all the above sounds good to you & I can reach out directly and cc you.'},
+  ]},
+  {id:'pb-inform',emoji:'🪬',bg:'#F3F4F6',title:'Informing the individual',sub:'Decrile a la persona: hola mira este es tu nuevo proyecto',steps:[
+    {title:'Template here:',detail:'TO MANAGER & INDIVIDUAL (After manager confirms- basically can copy and paste majority)\n\nHi [NAME] - Reaching out about your next project opportunity.\n[Insert any additional info if needed]\n\nDetails Below:\n\n\n• Client:.\n• Project: [Project name as shown in KAN].\n• PM: [PM\'s full name] .\n• Timing/Allocation: 50% [DATE RANGE] & 100% [DATE RANGE].\n• We will flag upcoming FTO [DATES] to the PM.\n• PM Contact: .\n• TLDR: [High-level summary of project].\n• Team Mix:.\n• ECD:.\n• GDD: .\n• VDL:.\n• XDL:.\n• SVD: .\n• SXD: .\n• Motion: .\n\n[INSERT SCREENSHOT OF INDIVIDUALS ALLOCATIONS FROM KAN FOR VISUAL]\n\nLet me know if you have any questions. Thank you!'},
+  ]},
+  {id:'pb-motion',emoji:'🪬',bg:'#F3F4F6',title:'MOTION REQUEST',sub:'MAPU: motion queen',steps:[
+    {title:'Tener el request completo - hacer las preguntas correctas',detail:'- Is there a ghost role created for this request?\n- Do we know when the presentation is due?\n- Do we have flexibility on the timeline?\n- Who will be overseeing this motion designer?\n- In which format will this presentation be delivered?\n- What type of animations is the Motion designer expected to make? (3D, UI, 2D).\n- Is the time for feedback and adjustments contemplated in this scope?'},
+    {title:'Hacer el request a Mapu',detail:'Describe what\n• Team:\n• PM:\n• Timing: __ at %\n• Presentation due:\n• Format:\n• Request:\n  - 2D 3D etc.\n• ____ will oversee this person\n• Feedback time taken into the scope'},
+    {title:'Motion FLs',detail:'https://docs.google.com/spreadsheets/d/1EXQE8QIWjnPvGX3cSLs-vnSiEYatMXOeP8uq_O4-0Mc/edit?gid=452393951#gid=452393951'},
+  ]},
+];
+
+const LS_PB='maria_pb_v1';
+function loadPb(){try{const d=JSON.parse(localStorage.getItem(LS_PB)||'null');return d||JSON.parse(JSON.stringify(DEFAULT_PB_DATA));}catch{return JSON.parse(JSON.stringify(DEFAULT_PB_DATA));}}
+function savePb(data){localStorage.setItem(LS_PB,JSON.stringify(data));}
+
+let pbDraggingId=null;
+
+function renderRequests(){
+  const list=document.getElementById('pb-list');
+  list.innerHTML='';
+  const data=loadPb();
+  data.forEach(pb=>list.appendChild(buildPbCard(pb,data)));
+}
+
+function buildPbCard(pb,data){
+  const card=document.createElement('div');
+  card.className='pb-card';
+  card.dataset.pbId=pb.id;
+  card.setAttribute('draggable','true');
+
+  // header
+  const header=document.createElement('div');
+  header.className='pb-card-header';
+
+  const drag=document.createElement('span');
+  drag.className='pb-drag';drag.textContent='⠿';drag.title='Drag to reorder';
+  drag.addEventListener('mousedown',e=>e.stopPropagation());
+
+  const iconBtn=document.createElement('div');
+  iconBtn.className='pb-icon pb-icon-btn';
+  iconBtn.style.background=pb.bg;
+  iconBtn.textContent=pb.emoji;
+  iconBtn.title='Click to change emoji';
+  iconBtn.addEventListener('click',e=>{e.stopPropagation();openEmojiPicker(e,pb,iconBtn);});
+
+  const titleWrap=document.createElement('div');
+  titleWrap.style.flex='1';
+  const titleEl=document.createElement('div');
+  titleEl.className='pb-title';titleEl.contentEditable='true';titleEl.spellcheck=false;titleEl.textContent=pb.title;
+  titleEl.addEventListener('click',e=>e.stopPropagation());
+  titleEl.addEventListener('blur',()=>{const d=loadPb();const p=d.find(x=>x.id===pb.id);if(p){p.title=titleEl.textContent.trim();savePb(d);}});
+  const subEl=document.createElement('div');
+  subEl.className='pb-sub';subEl.contentEditable='true';subEl.spellcheck=false;subEl.textContent=pb.sub;
+  subEl.addEventListener('click',e=>e.stopPropagation());
+  subEl.addEventListener('blur',()=>{const d=loadPb();const p=d.find(x=>x.id===pb.id);if(p){p.sub=subEl.textContent.trim();savePb(d);}});
+  titleWrap.appendChild(titleEl);titleWrap.appendChild(subEl);
+
+  const chevron=document.createElement('span');chevron.className='pb-chevron';chevron.textContent='▾';
+
+  const delBtn=document.createElement('button');
+  delBtn.className='pb-del';delBtn.title='Delete this request';delBtn.textContent='✕';
+  delBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(!confirm('Delete this request guide?'))return;
+    const d=loadPb();savePb(d.filter(x=>x.id!==pb.id));renderRequests();
+  });
+
+  header.appendChild(drag);header.appendChild(iconBtn);header.appendChild(titleWrap);header.appendChild(chevron);header.appendChild(delBtn);
+  header.addEventListener('click',()=>card.classList.toggle('open'));
+  card.appendChild(header);
+
+  // body
+  const body=document.createElement('div');
+  body.className='pb-body';
+  const stepsEl=document.createElement('div');
+  stepsEl.className='pb-steps';
+  stepsEl.id='steps-'+pb.id;
+
+  pb.steps.forEach((s,idx)=>{
+    stepsEl.appendChild(buildPbStep(pb.id,s,idx));
+  });
+
+  const addStepBtn=document.createElement('button');
+  addStepBtn.className='pb-add-step';addStepBtn.textContent='+ Add step';
+  addStepBtn.addEventListener('click',()=>{
+    const d=loadPb();const p=d.find(x=>x.id===pb.id);
+    if(p){p.steps.push({title:'Step name',detail:'Describe what to do…'});savePb(d);renderRequests();}
+    // focus new step
+    setTimeout(()=>{
+      const steps=document.querySelectorAll(`#steps-${pb.id} .pb-step-title`);
+      if(steps.length)steps[steps.length-1].focus();
+    },50);
+  });
+
+  body.appendChild(stepsEl);body.appendChild(addStepBtn);
+  card.appendChild(body);
+
+  // card drag events
+  card.addEventListener('dragstart',e=>{
+    if(!e.target.classList.contains('pb-drag')&&e.target.closest('.pb-drag')===null){
+      // Only allow drag if handle was the initiator
+      if(e.target!==card&&!card.querySelector('.pb-drag').contains(e.target)){
+        e.preventDefault();return;
+      }
+    }
+    pbDraggingId=pb.id;
+    card.classList.add('pb-dragging');
+    e.dataTransfer.effectAllowed='move';
+    e.dataTransfer.setData('pb-id',pb.id);
+  });
+  card.addEventListener('dragend',()=>{
+    pbDraggingId=null;card.classList.remove('pb-dragging');
+    document.querySelectorAll('.pb-drop-above,.pb-drop-below').forEach(el=>{el.classList.remove('pb-drop-above','pb-drop-below');});
+  });
+  card.addEventListener('dragover',e=>{
+    e.preventDefault();
+    if(!pbDraggingId||pbDraggingId===pb.id)return;
+    const rect=card.getBoundingClientRect();
+    document.querySelectorAll('.pb-drop-above,.pb-drop-below').forEach(el=>{el.classList.remove('pb-drop-above','pb-drop-below');});
+    card.classList.add(e.clientY<rect.top+rect.height/2?'pb-drop-above':'pb-drop-below');
+  });
+  card.addEventListener('dragleave',()=>card.classList.remove('pb-drop-above','pb-drop-below'));
+  card.addEventListener('drop',e=>{
+    e.preventDefault();
+    const fromId=e.dataTransfer.getData('pb-id')||pbDraggingId;
+    if(!fromId||fromId===pb.id)return;
+    card.classList.remove('pb-drop-above','pb-drop-below');
+    const rect=card.getBoundingClientRect();
+    const insertBefore=e.clientY<rect.top+rect.height/2;
+    const d=loadPb();
+    const fromIdx=d.findIndex(x=>x.id===fromId);
+    const toIdx=d.findIndex(x=>x.id===pb.id);
+    if(fromIdx===-1||toIdx===-1)return;
+    const [item]=d.splice(fromIdx,1);
+    const newToIdx=d.findIndex(x=>x.id===pb.id);
+    d.splice(insertBefore?newToIdx:newToIdx+1,0,item);
+    savePb(d);renderRequests();
+  });
+
+  return card;
+}
+
+function buildPbStep(pbId,s,idx){
   const step=document.createElement('div');
   step.className='pb-step';
-  step.innerHTML=`
-    <div class="pb-step-num">${count}</div>
-    <div class="pb-step-content">
-      <div class="pb-step-title" contenteditable="true" spellcheck="false">Step name</div>
-      <div class="pb-step-detail" contenteditable="true" spellcheck="false">Describe what to do…</div>
-    </div>`;
-  container.appendChild(step);
-  step.querySelector('.pb-step-title').focus();
-  document.execCommand('selectAll',false,null);
+  const num=document.createElement('div');num.className='pb-step-num';num.textContent=idx+1;
+  const content=document.createElement('div');content.className='pb-step-content';
+  const titleEl=document.createElement('div');titleEl.className='pb-step-title';titleEl.contentEditable='true';titleEl.spellcheck=false;titleEl.textContent=s.title;
+  titleEl.addEventListener('blur',()=>{const d=loadPb();const p=d.find(x=>x.id===pbId);if(p&&p.steps[idx]){p.steps[idx].title=titleEl.textContent.trim();savePb(d);}});
+  const detailEl=document.createElement('div');detailEl.className='pb-step-detail';detailEl.contentEditable='true';detailEl.spellcheck=false;detailEl.textContent=s.detail;
+  detailEl.addEventListener('blur',()=>{const d=loadPb();const p=d.find(x=>x.id===pbId);if(p&&p.steps[idx]){p.steps[idx].detail=detailEl.textContent.trim();savePb(d);}});
+  content.appendChild(titleEl);content.appendChild(detailEl);
+  step.appendChild(num);step.appendChild(content);
+  return step;
+}
+
+// Emoji picker
+let pickerCleanup=null;
+function openEmojiPicker(e,pb,iconBtn){
+  document.querySelector('.emoji-picker')?.remove();
+  if(pickerCleanup){document.removeEventListener('click',pickerCleanup);pickerCleanup=null;}
+  const picker=document.createElement('div');
+  picker.className='emoji-picker';
+  EMOJIS.forEach(em=>{
+    const opt=document.createElement('span');opt.className='emoji-opt';opt.textContent=em;
+    opt.addEventListener('click',ev=>{
+      ev.stopPropagation();
+      const d=loadPb();const p=d.find(x=>x.id===pb.id);
+      if(p){p.emoji=em;savePb(d);}
+      picker.remove();renderRequests();
+    });
+    picker.appendChild(opt);
+  });
+  const rect=iconBtn.getBoundingClientRect();
+  picker.style.left=Math.min(rect.left,window.innerWidth-250)+'px';
+  picker.style.top=(rect.bottom+6)+'px';
+  document.body.appendChild(picker);
+  pickerCleanup=()=>{picker.remove();pickerCleanup=null;};
+  setTimeout(()=>document.addEventListener('click',pickerCleanup,{once:true}),10);
 }
 
 function addPbCard(){
-  const list=document.getElementById('pb-list');
-  const id=`steps-c${Date.now()}`;
-  const card=document.createElement('div');
-  card.className='pb-card open';
-  card.innerHTML=`
-    <div class="pb-card-header" onclick="togglePb(this.parentElement)">
-      <div class="pb-icon" style="background:#F3F4F6;">📝</div>
-      <div style="flex:1">
-        <div class="pb-title" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()">New request type</div>
-        <div class="pb-sub" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()">Click to add a description</div>
-      </div>
-      <span class="pb-chevron">▾</span>
-    </div>
-    <div class="pb-body">
-      <div class="pb-steps" id="${id}">
-        <div class="pb-step">
-          <div class="pb-step-num">1</div>
-          <div class="pb-step-content">
-            <div class="pb-step-title" contenteditable="true" spellcheck="false">Step name</div>
-            <div class="pb-step-detail" contenteditable="true" spellcheck="false">Describe what to do…</div>
-          </div>
-        </div>
-      </div>
-      <button class="pb-add-step" onclick="addPbStep('${id}')">+ Add step</button>
-    </div>`;
-  list.appendChild(card);
-  card.querySelector('.pb-title').focus();
-  document.execCommand('selectAll',false,null);
+  const d=loadPb();
+  const newPb={id:`pb-c${Date.now()}`,emoji:'📝',bg:'#F3F4F6',title:'New request type',sub:'Click to add a description',steps:[{title:'Step name',detail:'Describe what to do…'}]};
+  d.push(newPb);savePb(d);renderRequests();
+  setTimeout(()=>{
+    const cards=document.querySelectorAll('.pb-card');
+    const last=cards[cards.length-1];
+    if(last){last.classList.add('open');last.querySelector('.pb-title')?.focus();}
+  },50);
 }
 
 // ── INIT ──
 seedIfEmpty();
 render();
+renderRequests();
 </script>
 </body>
 </html>
